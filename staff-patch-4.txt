@@ -1,0 +1,10 @@
+OLD:
+const TABLE_COLS = [
+  { key: 'name', label: 'Name' },
+  { key: 'shortName', label: 'ShortName' },
+
+NEW:
+const TABLE_COLS = [
+  { key: 'idCode', label: 'IdCode' },
+  { key: 'name', label: 'Name' },
+  { key: 'shortName', label: 'ShortName' },

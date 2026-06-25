@@ -1,0 +1,47 @@
+OLD:
+          <div className="staff-emp-line">
+            <span className="staff-emp-lbl">Salesman Name :</span>
+            <input id="staff-name" className="staff-emp-inp staff-emp-inp-wide" value={form.name}
+              onChange={e => set('name', e.target.value.toUpperCase())} />
+            <span className="staff-emp-lbl">Commission On Sales :</span>
+            <input className="staff-emp-inp staff-emp-inp-num" type="number" min="0" step="0.01"
+              value={form.commissionPercent} onChange={e => set('commissionPercent', e.target.value)} />
+            <span className="staff-emp-pct">%</span>
+          </div>
+
+          <div className="staff-emp-line">
+            <span className="staff-emp-lbl">Group :</span>
+            <input className="staff-emp-inp" value={form.group} onChange={e => set('group', e.target.value.toUpperCase())} />
+            <span className="staff-emp-lbl">Short Name :</span>
+            <input className="staff-emp-inp" value={form.shortName} onChange={e => set('shortName', e.target.value.toUpperCase())} />
+
+NEW:
+          <div className="staff-emp-line">
+            <span className="staff-emp-lbl">ID Code :</span>
+            <input
+              className="staff-emp-inp staff-emp-idcode"
+              value={form.idCode}
+              readOnly={mode === 'edit'}
+              title={mode === 'edit' ? 'ID Code edit nahi hota' : 'Unique staff code — auto on Add New'}
+              onChange={e => set('idCode', e.target.value.toUpperCase().replace(/\s/g, ''))}
+            />
+            <span className="staff-emp-lbl">Salesman Name :</span>
+            <input id="staff-name" className="staff-emp-inp staff-emp-inp-wide" value={form.name}
+              onChange={e => set('name', e.target.value.toUpperCase())} />
+            <span className="staff-emp-lbl">Commission On Sales :</span>
+            <input className="staff-emp-inp staff-emp-inp-num" type="number" min="0" step="0.01"
+              value={form.commissionPercent} onChange={e => set('commissionPercent', e.target.value)} />
+            <span className="staff-emp-pct">%</span>
+          </div>
+
+          <div className="staff-emp-line">
+            <span className="staff-emp-lbl">Group :</span>
+            <input className="staff-emp-inp" value={form.group} onChange={e => set('group', e.target.value.toUpperCase())} />
+            <span className="staff-emp-lbl">Short Name :</span>
+            <input
+              className="staff-emp-inp staff-emp-shortname"
+              value={form.shortName}
+              onChange={e => set('shortName', e.target.value.toUpperCase().replace(/\s/g, ''))}
+              placeholder="Unique — e.g. DK"
+              title="Har staff ka Short Name alag hona chahiye"
+            />

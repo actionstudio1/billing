@@ -1,0 +1,67 @@
+OLD:
+const today = () => new Date().toISOString().split('T')[0];
+const newIncRow = () => ({ rowId: `inc_${Date.now()}_${Math.random().toString(36).slice(2, 5)}`, date: today(), amount: '', note: '' });
+
+NEW:
+const today = () => new Date().toISOString().split('T')[0];
+
+function calcIncrementPercent(oldSal, newSal) {
+  const o = parseFloat(oldSal) || 0;
+  const n = parseFloat(newSal) || 0;
+  if (o <= 0) return n > 0 ? '100.00' : '0.00';
+  return (((n - o) / o) * 100).toFixed(2);
+}
+
+function incrementRaise(row) {
+  const o = parseFloat(row.oldSalary) || 0;
+  const n = parseFloat(row.newSalary) || 0;
+  return Math.max(0, n - o);
+}
+
+function sumIncrementRaises(rows = []) {
+  return rows.reduce((t, r) => t + incrementRaise(r), 0);
+}
+
+function resolveOldSalary(form, incrementsBefore = []) {
+  if (incrementsBefore.length > 0) {
+    const last = incrementsBefore[incrementsBefore.length - 1];
+    const n = parseFloat(last.newSalary);
+    if (!Number.isNaN(n) && n > 0) return n;
+  }
+  return parseFloat(form.salaryPerMonth) || 0;
+}
+
+function normalizeIncrementRow(r, idx, allRows, baseSalary) {
+  let oldSalary = r.oldSalary != null && r.oldSalary !== '' ? parseFloat(r.oldSalary) : NaN;
+  if (Number.isNaN(oldSalary)) {
+    oldSalary = idx > 0 ? (parseFloat(allRows[idx - 1]?.newSalary) || baseSalary) : baseSalary;
+  }
+  let newSalary = r.newSalary != null && r.newSalary !== '' ? parseFloat(r.newSalary) : NaN;
+  if (Number.isNaN(newSalary) && r.amount != null && r.amount !== '') {
+    newSalary = oldSalary + (parseFloat(r.amount) || 0);
+  }
+  if (Number.isNaN(newSalary)) newSalary = oldSalary;
+  return {
+    rowId: r.rowId || `inc_${idx}`,
+    date: r.date || today(),
+    oldSalary: String(oldSalary),
+    newSalary: r.newSalary != null && r.newSalary !== '' ? String(r.newSalary) : String(newSalary),
+    percent: calcIncrementPercent(oldSalary, newSalary),
+    note: r.note || '',
+    locked: !!r.locked,
+  };
+}
+
+function newIncRowFromForm(form) {
+  const prev = form.increments || [];
+  const oldSalary = resolveOldSalary(form, prev);
+  return {
+    rowId: `inc_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    date: today(),
+    oldSalary: String(oldSalary),
+    newSalary: '',
+    percent: '0.00',
+    note: '',
+    locked: false,
+  };
+}

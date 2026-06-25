@@ -1,0 +1,51 @@
+OLD:
+  const handleSave = useCallback(async () => {
+    if (mode !== 'new' && mode !== 'edit') return;
+    if (!normalizeItemName(form.name)) {
+      toast('Salesman name required', 'warning');
+      return;
+    }
+    const payload = toPayload(form, mode === 'edit' ? selectedId : undefined);
+    const duplicate = staffList.some(s =>
+      normalizeItemName(s.name) === payload.name && String(s.id) !== String(selectedId),
+    );
+    if (duplicate) {
+      toast('Yeh naam pehle se hai', 'warning');
+      return;
+    }
+
+    try {
+
+NEW:
+  const handleSave = useCallback(async () => {
+    if (mode !== 'new' && mode !== 'edit') return;
+    if (!normalizeItemName(form.name)) {
+      toast('Salesman name required', 'warning');
+      return;
+    }
+    const idCode = normalizeStaffCode(form.idCode) || (mode === 'new' ? nextStaffIdCode(staffList) : '');
+    if (!idCode) {
+      toast('ID Code required', 'warning');
+      return;
+    }
+    const shortName = normalizeStaffCode(form.shortName);
+    if (!shortName) {
+      toast('Short Name required', 'warning');
+      return;
+    }
+    const payload = toPayload({ ...form, idCode, shortName }, mode === 'edit' ? selectedId : undefined);
+
+    if (staffList.some(s => normalizeStaffCode(s.idCode) === payload.idCode && String(s.id) !== String(selectedId))) {
+      toast('Yeh ID Code pehle se use ho raha hai', 'warning');
+      return;
+    }
+    if (staffList.some(s => normalizeStaffCode(s.shortName) === payload.shortName && String(s.id) !== String(selectedId))) {
+      toast('Yeh Short Name pehle se hai — unique hona chahiye', 'warning');
+      return;
+    }
+    if (staffList.some(s => normalizeItemName(s.name) === payload.name && String(s.id) !== String(selectedId))) {
+      toast('Yeh naam pehle se hai', 'warning');
+      return;
+    }
+
+    try {

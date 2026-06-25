@@ -1,0 +1,41 @@
+OLD:
+  const addIncrementRow = () => {
+    setForm(prev => ({ ...prev, increments: [...(prev.increments || []), newIncRow()] }));
+    if (!mode) setMode('edit');
+  };
+
+  const setIncrement = (rowId, field, value) => {
+    setForm(prev => ({
+      ...prev,
+      increments: (prev.increments || []).map(r =>
+        r.rowId === rowId ? { ...r, [field]: value } : r,
+      ),
+    }));
+  };
+
+  const removeIncrement = (rowId) => {
+    setForm(prev => ({
+      ...prev,
+      increments: (prev.increments || []).filter(r => r.rowId !== rowId),
+    }));
+  };
+
+NEW:
+  const addIncrementRow = () => {
+    setForm(prev => ({ ...prev, increments: [...(prev.increments || []), newIncRowFromForm(prev)] }));
+    if (!mode) setMode('edit');
+  };
+
+  const setIncrement = (rowId, field, value) => {
+    setForm(prev => ({
+      ...prev,
+      increments: (prev.increments || []).map(r => {
+        if (r.rowId !== rowId || r.locked) return r;
+        const next = { ...r, [field]: value };
+        if (field === 'newSalary') {
+          next.percent = calcIncrementPercent(next.oldSalary, next.newSalary);
+        }
+        return next;
+      }),
+    }));
+  };

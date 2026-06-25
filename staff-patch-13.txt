@@ -1,0 +1,12 @@
+OLD:
+    if (mode === 'edit') {
+      idCode = normalizeStaffCode(form.idCode) || normalizeStaffCode(selected?.idCode);
+      if (!idCode) idCode = nextStaffIdCode(others);
+    } else {
+
+NEW:
+    if (mode === 'edit') {
+      const sel = staffList.find(s => String(s.id) === String(selectedId));
+      idCode = normalizeStaffCode(form.idCode) || normalizeStaffCode(sel?.idCode);
+      if (!idCode) idCode = nextStaffIdCode(others);
+    } else {

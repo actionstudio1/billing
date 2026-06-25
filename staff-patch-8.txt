@@ -1,0 +1,7 @@
+OLD:
+/** Next unique staff ID code — ST001, ST002, … */
+export function nextStaffIdCode(staffList = []) {
+
+NEW:
+/** Next unique staff ID code — ST001, ST002, … */
+function nextStaffIdCode(staffList = []) {

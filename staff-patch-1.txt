@@ -1,0 +1,34 @@
+OLD:
+const today = () => new Date().toISOString().split('T')[0];
+const newIncRow = () => ({ rowId: `inc_${Date.now()}_${Math.random().toString(36).slice(2, 5)}`, date: today(), amount: '', note: '' });
+
+const emptyForm = {
+  name: '',
+
+NEW:
+const today = () => new Date().toISOString().split('T')[0];
+const newIncRow = () => ({ rowId: `inc_${Date.now()}_${Math.random().toString(36).slice(2, 5)}`, date: today(), amount: '', note: '' });
+
+const normalizeStaffCode = (v) => String(v || '').trim().toUpperCase().replace(/\s+/g, '');
+
+/** Next unique staff ID code — ST001, ST002, … */
+export function nextStaffIdCode(staffList = []) {
+  const used = new Set(staffList.map(s => normalizeStaffCode(s.idCode)).filter(Boolean));
+  let maxNum = 0;
+  for (const s of staffList) {
+    const code = normalizeStaffCode(s.idCode);
+    const m = code.match(/^ST(\d+)$/i) || code.match(/(\d+)$/);
+    if (m) maxNum = Math.max(maxNum, parseInt(m[1], 10));
+  }
+  let n = Math.max(maxNum + 1, 1);
+  let candidate = `ST${String(n).padStart(3, '0')}`;
+  while (used.has(candidate)) {
+    n += 1;
+    candidate = `ST${String(n).padStart(3, '0')}`;
+  }
+  return candidate;
+}
+
+const emptyForm = {
+  idCode: '',
+  name: '',

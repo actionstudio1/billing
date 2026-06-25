@@ -1,0 +1,15 @@
+OLD:
+  const handleAddNew = () => {
+    setForm({ ...emptyForm, increments: [] });
+    setSelectedId(null);
+    setMode('new');
+    document.getElementById('staff-name')?.focus();
+  };
+
+NEW:
+  const handleAddNew = () => {
+    setForm({ ...emptyForm, increments: [], idCode: nextStaffIdCode(staffList) });
+    setSelectedId(null);
+    setMode('new');
+    document.getElementById('staff-name')?.focus();
+  };

@@ -1,0 +1,8 @@
+OLD:
+const toForm = (rec = {}) => ({
+  name: rec.name || '',
+
+NEW:
+const toForm = (rec = {}) => ({
+  idCode: rec.idCode || '',
+  name: rec.name || '',

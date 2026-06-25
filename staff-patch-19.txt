@@ -1,0 +1,45 @@
+OLD:
+function newIncRowFromForm(form) {
+  const prev = form.increments || [];
+  const oldSalary = resolveOldSalary(form, prev);
+  return {
+    rowId: `inc_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    date: today(),
+    oldSalary: String(oldSalary),
+    newSalary: '',
+    percent: '0.00',
+    note: '',
+    locked: false,
+  };
+}
+
+NEW:
+function syncUnlockedIncrementOldSalaries(form) {
+  const base = parseFloat(form.salaryPerMonth) || 0;
+  return (form.increments || []).map((r, idx, arr) => {
+    if (r.locked) return r;
+    const autoOld = resolveOldSalary(form, arr.slice(0, idx));
+    const oldSalary = r.oldSalary !== '' && r.oldSalary != null
+      ? r.oldSalary
+      : (autoOld > 0 ? String(autoOld) : '');
+    return {
+      ...r,
+      oldSalary,
+      percent: calcIncrementPercent(oldSalary, r.newSalary),
+    };
+  });
+}
+
+function newIncRowFromForm(form) {
+  const prev = form.increments || [];
+  const oldSalary = resolveOldSalary(form, prev);
+  return {
+    rowId: `inc_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+    date: today(),
+    oldSalary: oldSalary > 0 ? String(oldSalary) : '',
+    newSalary: '',
+    percent: '0.00',
+    note: '',
+    locked: false,
+  };
+}

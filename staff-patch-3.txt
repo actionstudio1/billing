@@ -1,0 +1,10 @@
+OLD:
+  return {
+    ...(id ? { id } : {}),
+    name: normalizeItemName(form.name),
+
+NEW:
+  return {
+    ...(id ? { id } : {}),
+    idCode: normalizeStaffCode(form.idCode),
+    name: normalizeItemName(form.name),

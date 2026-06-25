@@ -1,0 +1,5 @@
+OLD:
+              readOnly={mode === 'edit'}
+
+NEW:
+              readOnly={mode === 'edit' && !!normalizeStaffCode(form.idCode)}

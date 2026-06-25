@@ -1,0 +1,12 @@
+OLD:
+    const idCode = normalizeStaffCode(form.idCode) || (mode === 'new' ? nextStaffIdCode(staffList) : '');
+    if (!idCode) {
+      toast('ID Code required', 'warning');
+      return;
+    }
+
+NEW:
+    let idCode = normalizeStaffCode(form.idCode);
+    if (!idCode) {
+      idCode = nextStaffIdCode(staffList.filter(s => String(s.id) !== String(selectedId)));
+    }

@@ -1,0 +1,52 @@
+OLD:
+                      <td>
+                        <input className="staff-emp-inp staff-emp-inp-num staff-emp-readonly" value={row.oldSalary} readOnly />
+                      </td>
+                      <td>
+                        <input type="number" className="staff-emp-inp staff-emp-inp-num" min="0" step="0.01"
+                          value={row.newSalary} readOnly={row.locked}
+                          onChange={e => setIncrement(row.rowId, 'newSalary', e.target.value)} placeholder="0" />
+                      </td>
+                      <td>
+                        <input className="staff-emp-inp staff-emp-inp-num staff-emp-readonly" value={row.percent} readOnly />
+                      </td>
+                      <td>
+                        <input className="staff-emp-inp" value={row.note} readOnly={row.locked}
+                          onChange={e => setIncrement(row.rowId, 'note', e.target.value)} placeholder="Narration" />
+
+NEW:
+                      <td>
+                        <input
+                          type="number"
+                          className={`staff-emp-inp staff-emp-inp-num${row.locked ? ' staff-emp-readonly' : ''}`}
+                          min="0"
+                          step="0.01"
+                          value={row.oldSalary}
+                          readOnly={row.locked}
+                          onChange={e => setIncrement(row.rowId, 'oldSalary', e.target.value)}
+                          placeholder="Old salary"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          className="staff-emp-inp staff-emp-inp-num"
+                          min="0"
+                          step="0.01"
+                          value={row.newSalary}
+                          readOnly={row.locked}
+                          onChange={e => setIncrement(row.rowId, 'newSalary', e.target.value)}
+                          placeholder="New salary"
+                        />
+                      </td>
+                      <td>
+                        <input className="staff-emp-inp staff-emp-inp-num staff-emp-readonly" value={row.percent || '0.00'} readOnly tabIndex={-1} />
+                      </td>
+                      <td>
+                        <input
+                          className="staff-emp-inp staff-emp-inc-note"
+                          value={row.note}
+                          readOnly={row.locked}
+                          onChange={e => setIncrement(row.rowId, 'note', e.target.value)}
+                          placeholder="Narration"
+                        />

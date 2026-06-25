@@ -1,0 +1,19 @@
+OLD:
+            <span className="staff-emp-lbl">ID Code :</span>
+            <input
+              className="staff-emp-inp staff-emp-idcode"
+              value={form.idCode}
+              readOnly={mode === 'edit' && !!normalizeStaffCode(form.idCode)}
+              title={mode === 'edit' ? 'ID Code edit nahi hota' : 'Unique staff code — auto on Add New'}
+              onChange={e => set('idCode', e.target.value.toUpperCase().replace(/\s/g, ''))}
+            />
+
+NEW:
+            <span className="staff-emp-lbl">ID Code <span className="staff-emp-auto-tag">(Auto)</span> :</span>
+            <input
+              className="staff-emp-inp staff-emp-idcode"
+              value={canSave ? (form.idCode || '…') : ''}
+              readOnly
+              tabIndex={-1}
+              title="System auto-generates unique code — ST001, ST002…"
+            />

@@ -1,0 +1,53 @@
+OLD:
+const toPayload = (form, id) => {
+  const increments = (form.increments || [])
+    .filter(r => r.date || r.amount || r.note)
+    .map(r => ({
+      rowId: r.rowId,
+      date: r.date || today(),
+      amount: parseFloat(r.amount) || 0,
+      note: (r.note || '').trim(),
+    }));
+  const incrementTotal = sumIncrements(increments);
+
+  return {
+    ...(id ? { id } : {}),
+    idCode: normalizeStaffCode(form.idCode),
+    name: normalizeItemName(form.name),
+    commissionPercent: parseFloat(form.commissionPercent) || 0,
+    group: (form.group || '').trim().toUpperCase(),
+    shortName: (form.shortName || '').trim().toUpperCase(),
+    salaryPerMonth: parseFloat(form.salaryPerMonth) || 0,
+
+NEW:
+const toPayload = (form, id) => {
+  const baseSalary = parseFloat(form.salaryPerMonth) || 0;
+  const rawIncrements = form.increments || [];
+  const increments = rawIncrements
+    .filter(r => r.date || r.newSalary || r.note || r.oldSalary)
+    .map((r, i) => {
+      const norm = normalizeIncrementRow(r, i, rawIncrements, baseSalary);
+      return {
+        rowId: norm.rowId,
+        date: norm.date,
+        oldSalary: parseFloat(norm.oldSalary) || 0,
+        newSalary: parseFloat(norm.newSalary) || 0,
+        percent: parseFloat(norm.percent) || 0,
+        note: norm.note,
+        locked: true,
+      };
+    });
+  const incrementTotal = sumIncrementRaises(increments);
+  let salaryPerMonth = baseSalary;
+  if (increments.length > 0) {
+    salaryPerMonth = increments[increments.length - 1].newSalary;
+  }
+
+  return {
+    ...(id ? { id } : {}),
+    idCode: normalizeStaffCode(form.idCode),
+    name: normalizeItemName(form.name),
+    commissionPercent: parseFloat(form.commissionPercent) || 0,
+    group: (form.group || '').trim().toUpperCase(),
+    shortName: (form.shortName || '').trim().toUpperCase(),
+    salaryPerMonth,

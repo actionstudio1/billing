@@ -1,0 +1,22 @@
+OLD:
+    const shortName = normalizeStaffCode(form.shortName);
+    if (!shortName) {
+      toast('Short Name required', 'warning');
+      return;
+    }
+    const payload = toPayload({ ...form, idCode, shortName }, mode === 'edit' ? selectedId : undefined);
+
+NEW:
+    const shortName = normalizeStaffCode(form.shortName);
+    if (!shortName) {
+      toast('Short Name required', 'warning');
+      return;
+    }
+    const pendingInc = (form.increments || []).filter(r => !r.locked);
+    for (const r of pendingInc) {
+      if (!parseFloat(r.newSalary)) {
+        toast('Nayi increment row mein New Salary zaroori hai', 'warning');
+        return;
+      }
+    }
+    const payload = toPayload({ ...form, idCode, shortName }, mode === 'edit' ? selectedId : undefined);

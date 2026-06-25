@@ -1,0 +1,15 @@
+OLD:
+    let idCode = normalizeStaffCode(form.idCode);
+    if (!idCode) {
+      idCode = nextStaffIdCode(staffList.filter(s => String(s.id) !== String(selectedId)));
+    }
+
+NEW:
+    const others = staffList.filter(s => String(s.id) !== String(selectedId));
+    let idCode;
+    if (mode === 'edit') {
+      idCode = normalizeStaffCode(form.idCode) || normalizeStaffCode(selected?.idCode);
+      if (!idCode) idCode = nextStaffIdCode(others);
+    } else {
+      idCode = nextStaffIdCode(staffList);
+    }
