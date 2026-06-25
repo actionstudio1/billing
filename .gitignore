@@ -33,3 +33,5 @@ Trash/
 *.njsproj
 *.sln
 *.sw?
+
+.vercel
